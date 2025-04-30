@@ -1,6 +1,6 @@
 dependencies:
 - name: library
-  repository: https://kloudlite.github.io/machinehack-helmcharts
-  version: v1.0.0
-digest: sha256:e3ea7ca21421bf4a7b1bbfa1b5b91995804094c9477a0dc79458418a12929636
-generated: "2025-02-26T10:27:16.335701846+05:30"
+  repository: https://analyticsindiamag.github.io/machinehack-helmcharts
+  version: v1.0.01
+digest: sha256:6545b3fab89cf9721e62001365c97fad67fcc7c769da47ffff43a8c3af8e2800
+generated: "2025-04-30T16:28:06.472349811+05:30"
