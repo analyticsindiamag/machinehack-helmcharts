@@ -56,7 +56,7 @@ spec:
             - name: storage
               mountPath: /home/coder
         - name: install-plugins
-          image: ghcr.io/kloudlite/hub/coder-main:latest
+          image: ghcr.io/analyticsindiamag/hub/coder-main:latest
           imagePullPolicy: IfNotPresent
           env:
             # INFO: these 2 env vars are needed for plugins to be installed
@@ -81,7 +81,7 @@ spec:
 
       containers:
         - name: code-server
-          image: ghcr.io/kloudlite/hub/coder-main:latest
+          image: ghcr.io/analyticsindiamag/hub/coder-main:latest
           securityContext:
             runAsUser: 1000
             fsGroup: 1000
