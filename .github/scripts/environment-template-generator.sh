@@ -4,7 +4,7 @@ for dir in charts/*/; do
   cat >>.static-pages/env-template.yml <<EOF
 - name: $(basename "$dir")
   helmchartInfo:
-    url: "https://kloudlite.github.io/machinehack-helmcharts"
+    url: "https://analyticsindiamag.github.io/machinehack-helmcharts"
     name: $(basename "$dir")
     version: "${CHART_VERSION}"
   helmValues: 

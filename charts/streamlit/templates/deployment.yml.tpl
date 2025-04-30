@@ -32,7 +32,7 @@ spec:
             mountPath: /app/ws
       containers:
       - name: streamlit
-        image: ghcr.io/kloudlite/hub/streamlit-main:latest
+        image: ghcr.io/analyticsindiamag/hub/streamlit-main:latest
         imagePullPolicy: Always
         {{ if .Values.streamlit.env }}
         env:
