@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-cockroachdb-init
+  labels:
+    app: cockroachdb
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    release: {{ .Release.Name }}
+data:
+  init.sh: |-
+    #!/bin/bash
+    set -e
+    
+    # Wait for CockroachDB to be ready
+    until /cockroach/cockroach sql --insecure --host={{ .Release.Name }}-cockroachdb-0.{{ .Release.Name }}-cockroachdb:{{ .Values.service.grpcPort }} -e 'SHOW DATABASES;'; do
+      echo "Waiting for CockroachDB to become available..."
+      sleep 2
+    done
+    
+    echo "CockroachDB is up and running!"
+    
+    # Create databases
+    {{- range .Values.init.databases }}
+    echo "Creating database '{{ . }}' if it doesn't exist..."
+    /cockroach/cockroach sql --insecure --host={{ $.Release.Name }}-cockroachdb-0.{{ $.Release.Name }}-cockroachdb:{{ $.Values.service.grpcPort }} -e "CREATE DATABASE IF NOT EXISTS {{ . }};"
+    {{- end }}
+    
+    echo "Database initialization completed successfully!"

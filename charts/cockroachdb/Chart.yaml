@@ -1,0 +1,17 @@
+apiVersion: v2
+name: cockroachdb
+description: A Helm chart for deploying CockroachDB - a cloud-native SQL database
+type: application
+version: 0.1.0
+appVersion: "23.1.11"
+home: https://www.cockroachlabs.com/
+sources:
+  - https://github.com/cockroachdb/cockroach
+maintainers:
+  - name: MachineHack
+    email: info@machinehack.com
+keywords:
+  - cockroachdb
+  - sql
+  - database
+  - postgres

@@ -1,0 +1,57 @@
+ingress:
+  enabled: true
+  host: "cockroachdb.example.com"
+  className: nginx
+  clusterIssuer: "kloudlite-cert-issuer"
+  cors:
+    enabled: false
+    origins: []
+
+replicaCount: 3
+
+image:
+  repository: cockroachdb/cockroach
+  tag: "v23.1.11"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  grpcPort: 26257
+  httpPort: 8080
+
+init:
+  databases: ["defaultdb"]
+  username: "root"
+  password: ""
+
+resources:
+  requests:
+    cpu: "500m"
+    memory: "1Gi"
+  limits:
+    cpu: "2"
+    memory: "4Gi"
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity:
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+    - weight: 100
+      podAffinityTerm:
+        labelSelector:
+          matchExpressions:
+          - key: app
+            operator: In
+            values:
+            - cockroachdb
+        topologyKey: kubernetes.io/hostname
+
+persistence:
+  enabled: true
+  size: 100Gi
+  storageClass: "standard"
+  accessModes:
+    - ReadWriteOnce

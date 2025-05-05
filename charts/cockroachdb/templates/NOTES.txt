@@ -1,0 +1,49 @@
+CockroachDB Cluster has been installed!
+
+=================================================================
+Cluster Information:
+=================================================================
+  Name: {{ .Release.Name }}
+  Namespace: {{ .Release.Namespace }}
+  Nodes: {{ .Values.replicaCount }}
+
+=================================================================
+Connection Information:
+=================================================================
+  Admin UI:    https://{{ .Values.ingress.host }}
+  SQL Client:  {{ .Release.Name }}-cockroachdb-public.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.grpcPort }}
+
+=================================================================
+How to Connect:
+=================================================================
+
+1. From within the Kubernetes cluster:
+
+   $ kubectl run -it --rm cockroach-client \
+     --image=cockroachdb/cockroach \
+     --restart=Never \
+     -- sql --insecure \
+     --host={{ .Release.Name }}-cockroachdb-public.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.grpcPort }}
+
+2. Using port-forwarding:
+
+   $ kubectl port-forward svc/{{ .Release.Name }}-cockroachdb-public {{ .Values.service.grpcPort }}:{{ .Values.service.grpcPort }}
+
+   Then in another window:
+   $ cockroach sql --insecure --host=localhost:{{ .Values.service.grpcPort }}
+
+3. Access the Admin UI:
+   
+   Visit: https://{{ .Values.ingress.host }}
+
+=================================================================
+Troubleshooting:
+=================================================================
+
+  To check the status of all pods in the StatefulSet:
+  $ kubectl get pods -l app=cockroachdb,release={{ .Release.Name }}
+
+  To check logs for a specific pod:
+  $ kubectl logs {{ .Release.Name }}-cockroachdb-0 -f
+
+================================================================= 

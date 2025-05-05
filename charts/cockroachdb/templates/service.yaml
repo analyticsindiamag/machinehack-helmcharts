@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-cockroachdb
+  labels:
+    app: cockroachdb
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    release: {{ .Release.Name }}
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+  - port: {{ .Values.service.grpcPort }}
+    targetPort: grpc
+    name: grpc
+  - port: {{ .Values.service.httpPort }}
+    targetPort: http
+    name: http
+  selector:
+    app: cockroachdb
+    release: {{ .Release.Name }}
+---
+# Client service for applications to connect to the database cluster
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-cockroachdb-public
+  labels:
+    app: cockroachdb
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    release: {{ .Release.Name }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+  - port: {{ .Values.service.grpcPort }}
+    targetPort: grpc
+    name: grpc
+  - port: {{ .Values.service.httpPort }}
+    targetPort: http
+    name: http
+  selector:
+    app: cockroachdb
+    release: {{ .Release.Name }}
