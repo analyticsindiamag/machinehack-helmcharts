@@ -1,38 +1,21 @@
-replicaCount: 1
+controller:
+  serviceType: NodePort
+  installPlugins:
+    - kubernetes:3937.vd7b_82db_e347b_
+    - workflow-aggregator:590.v6a_d052e5a_a_b_5
+  adminUser: admin
+  adminPassword: admin123
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "256Mi"
+    limits:
+      cpu: "200m"
+      memory: "512Mi"
+  servicePort: 8080
 
-image:
-  repository: jenkins/jenkins
-  tag: "lts"
-  pullPolicy: IfNotPresent
+expose:
+  host: ""
 
-service:
-  type: ClusterIP
-  port: 8080
-
-resources:
-  requests:
-    cpu: "1000m"
-    memory: "1024Mi"
-  limits:
-    cpu: "2000m"
-    memory: "2048Mi"
-
-
-ingress:
-  enabled: true
-  host: "jenkins.example.com"
-  className: nginx
-  clusterIssuer: "kloudlite-cert-issuer"
-  cors:
-    enabled: false
-    origins: []
-
-admin:
-  user: admin
-  password: admin123
-
-persistence:
-  enabled: true
-  size: 10Gi
-  storageClass: ""
-
+serviceAccount:
+  name: kloudlite-cluster-admin
