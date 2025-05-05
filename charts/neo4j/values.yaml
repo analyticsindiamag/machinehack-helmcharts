@@ -1,6 +1,12 @@
-neo4j:
+ingress:
+  enabled: enable
+  className: nginx
+  host: neo4j.cloud.machinehack.com
   architecture: "standalone"
-
+  tls:
+    enabled: true
+    clusterIssuer: "kloudlite-cert-issuer"
+    
   volumePermissions:
     enabled: true
 
@@ -17,7 +23,3 @@ neo4j:
 
   nodeSelector: {}
   tolerations: []
-
-  expose:
-    enabled: true
-    host: ""
