@@ -1,0 +1,43 @@
+controller:
+  serviceType: NodePort
+  installPlugins:
+    - kubernetes:3937.vd7b_82db_e347b_
+    - workflow-aggregator:590.v6a_d052e5a_a_b_5
+  adminUser: admin
+  adminPassword: admin123
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "256Mi"
+    limits:
+      cpu: "200m"
+      memory: "512Mi"
+  servicePort: 8080
+  serviceAccount:
+    name: kloudlite-cluster-admin
+
+service:
+  type: NodePort
+  port: 8080
+
+ingress:
+  enabled: true
+  host: "jenkins-instance-2.machinehack-new.clients.kloudlite.io"
+  className: "nginx"
+  clusterIssuer: "kloudlite-cert-issuer"
+  cors:
+    enabled: true
+    origins:
+      - "*"
+
+expose:
+  enabled: true
+  host: ""
+  port: 8080
+
+persistence:
+  enabled: true
+  accessModes:
+    - ReadWriteOnce
+  size: 10Gi
+  storageClass: ""
