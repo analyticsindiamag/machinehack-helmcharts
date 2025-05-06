@@ -1,13 +1,17 @@
 ingress:
   enabled: true
-  host: "cockroachdb.example.com"
+  host: "cockroachdb.cloud.machinehack.com"
   className: nginx
-  clusterIssuer: "kloudlite-cert-issuer"
   cors:
     enabled: false
     origins: []
+  tls:
+    enabled: true
+    clusterIssuer: "kloudlite-cert-issuer"
+  annotations: 
+    cert-manager.io/cluster-issuer: kloudlite-cert-issuer
 
-replicaCount: 3
+replicaCount: 1
 
 image:
   repository: cockroachdb/cockroach
@@ -15,7 +19,7 @@ image:
   pullPolicy: IfNotPresent
 
 service:
-  type: NodePort
+  type: ClusterIP
   grpcPort: 26257
   httpPort: 8080
 init:

@@ -2,7 +2,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ .Release.Name }}-cockroachdb
+  name: {{ .Release.Name }}
   labels:
     app: cockroachdb
     chart: {{ .Chart.Name }}-{{ .Chart.Version }}
@@ -18,7 +18,7 @@ spec:
   tls:
   - hosts:
     - {{ .Values.ingress.host }}
-    secretName: {{ .Release.Name }}-cockroachdb-tls
+    secretName: {{ .Release.Name }}-tls
   rules:
   - host: {{ .Values.ingress.host }}
     http:
@@ -27,7 +27,7 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: {{ .Release.Name }}-cockroachdb-public
+            name: {{ .Release.Name }}
             port:
               number: {{ .Values.service.httpPort }}
 {{- end }}
