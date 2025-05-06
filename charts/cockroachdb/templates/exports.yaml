@@ -3,9 +3,13 @@ kind: Secret
 metadata:
   name: "{{.Release.Name}}-exports"
   namespace: {{.Release.Namespace}}
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-weight": "5"
 type: Opaque
 stringData:
-  URL: https://{{.Values.ingress.host}}
+  # The URL will have {env_name} replaced with the actual environment name
+  URL: https://{{.Values.ingress.host | replace "{env_name}" .Release.Namespace}}
   COCKROACH_HOST: "{{.Release.Name}}-cockroachdb-public.{{.Release.Namespace}}.svc.cluster.local"
   COCKROACH_PORT: "{{.Values.service.grpcPort}}"
   COCKROACH_HTTP_PORT: "{{.Values.service.httpPort}}"
