@@ -15,10 +15,9 @@ image:
   pullPolicy: IfNotPresent
 
 service:
-  type: ClusterIP
+  type: NodePort
   grpcPort: 26257
   httpPort: 8080
-
 init:
   databases: ["defaultdb"]
   username: "root"
@@ -50,7 +49,7 @@ affinity:
         topologyKey: kubernetes.io/hostname
 
 persistence:
-  enabled: true
+  enabled: false
   size: 100Gi
   storageClass: "standard"
   accessModes:
