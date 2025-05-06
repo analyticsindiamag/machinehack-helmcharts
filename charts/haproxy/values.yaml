@@ -1,0 +1,43 @@
+ingress:
+  enabled: true
+  host: "haproxy.example.com"
+  className: nginx
+  clusterIssuer: "kloudlite-cert-issuer"
+  cors:
+    enabled: false
+    origins: []
+
+replicaCount: 1
+
+image:
+  repository: haproxy
+  tag: "2.8.3"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  ports:
+    http:
+      port: 80
+      targetPort: 80
+    stats:
+      port: 8404
+      targetPort: 8404
+
+config:
+  defaultBackend: "app-service:80"
+  stats:
+    enabled: true
+    uri: "/haproxy-stats"
+    auth:
+      enabled: true
+      username: admin
+      password: admin
+
+resources: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {} 
