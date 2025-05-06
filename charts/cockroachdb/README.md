@@ -8,7 +8,7 @@ This Helm chart deploys [CockroachDB](https://www.cockroachlabs.com/) - a cloud-
 - Configurable resources
 - Persistent storage
 - Ingress for web UI access
-- NodePort service for SQL access
+- Service for SQL access
 - Export of connection details via Kubernetes Secret
 
 ## Prerequisites
@@ -17,6 +17,25 @@ This Helm chart deploys [CockroachDB](https://www.cockroachlabs.com/) - a cloud-
 - Helm 3.0+
 - PV provisioner support in the underlying infrastructure
 - LoadBalancer or Ingress controller (for external access)
+
+## Chart Structure
+
+The chart follows a standardized structure similar to the nginx Helm chart:
+
+```
+cockroachdb/
+├── Chart.yaml              # Chart metadata
+├── values.yaml             # Default configuration values
+├── templates/
+│   ├── deployment.yaml     # StatefulSet for CockroachDB pods
+│   ├── service.yaml        # Services for inter-node and client access
+│   ├── ingress.yaml        # Web UI ingress configuration
+│   ├── exports.yaml        # Exports secrets with connection details
+│   ├── configmap.yaml      # CockroachDB configuration
+│   ├── init-job.yaml       # Initialization job for database setup
+│   └── NOTES.txt           # Usage notes displayed after installation
+└── README.md               # Documentation
+```
 
 ## Installing the Chart
 
@@ -62,7 +81,7 @@ After the chart is deployed, you can access CockroachDB in several ways:
 
    ```bash
    # Get the exported connection details
-   kubectl get secret cockroachdb-exports -n cockroachdb -o jsonpath="{.data.COCKROACHDB_CONNECTION_STRING}" | base64 -d
+   kubectl get secret cockroachdb-exports -n cockroachdb -o yaml
    
    # Use with any PostgreSQL client
    psql "postgresql://root:<password>@<host>:<port>/defaultdb?sslmode=disable"
