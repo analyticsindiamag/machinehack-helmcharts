@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: "{{.Release.Name}}-exports"
+  namespace: {{.Release.Namespace}}
+type: Opaque
+stringData:
+  URL: https://{{.Values.ingress.host}}
+  {{- if .Values.config.stats.enabled }}
+  STATS_URL: https://{{.Values.ingress.host}}{{.Values.config.stats.uri}}
+  {{- end }} 

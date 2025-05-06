@@ -1,0 +1,20 @@
+Thank you for installing {{ .Chart.Name }}.
+
+Your HAProxy instance is now being deployed with the following configuration:
+
+1. Main URL: https://{{ .Values.ingress.host }}
+{{- if .Values.config.stats.enabled }}
+2. Statistics URL: https://{{ .Values.ingress.host }}{{ .Values.config.stats.uri }}
+   {{- if .Values.config.stats.auth.enabled }}
+   Username: {{ .Values.config.stats.auth.username }}
+   Password: {{ .Values.config.stats.auth.password }}
+   {{- end }}
+{{- end }}
+
+HAProxy is set to load balance to: {{ .Values.config.defaultBackend }}
+
+To check the status of your deployment:
+  kubectl get pods -l app=haproxy -n {{ .Release.Namespace }}
+
+To see the logs:
+  kubectl logs -l app=haproxy -n {{ .Release.Namespace }} 
