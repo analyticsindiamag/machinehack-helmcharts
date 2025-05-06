@@ -1,6 +1,8 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: kloudlite-cert-issuer
   name: nginx
   labels:
     app: nginx
@@ -22,4 +24,5 @@ spec:
                   name: http
   tls:
   - hosts:
+    - {{ .Values.ingress.host }}
     secretName: {{ .Values.ingress.host }}-tls
