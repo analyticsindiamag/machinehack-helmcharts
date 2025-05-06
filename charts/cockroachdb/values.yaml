@@ -1,6 +1,6 @@
 ingress:
   enabled: true
-  host: "cockroachdb-{env_name}.machinehack-new.clients.kloudlite.io"
+  host: "cockroachdb.machinehack-new.clients.kloudlite.io"
   className: nginx
   clusterIssuer: "kloudlite-cert-issuer"
   cors:

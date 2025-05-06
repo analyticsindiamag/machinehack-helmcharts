@@ -17,10 +17,10 @@ spec:
   ingressClassName: {{ .Values.ingress.className }}
   tls:
   - hosts:
-    - {{ .Values.ingress.host | replace "{env_name}" .Release.Namespace }}
+    - {{ .Values.ingress.host }}
     secretName: {{ .Release.Name }}-cockroachdb-tls
   rules:
-  - host: {{ .Values.ingress.host | replace "{env_name}" .Release.Namespace }}
+  - host: {{ .Values.ingress.host }}
     http:
       paths:
       - path: /
