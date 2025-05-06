@@ -1,6 +1,10 @@
 ingress:
   enabled: true
+<<<<<<< HEAD
   host: "cockroachdb.cloud.machinehack.com"
+=======
+  host: "cockroachdb.machinehack-new.clients.kloudlite.io"
+>>>>>>> 92ab130aa09a534d805feb22a601a2cfd70fcca4
   className: nginx
   cors:
     enabled: false

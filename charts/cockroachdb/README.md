@@ -10,6 +10,7 @@ This Helm chart deploys [CockroachDB](https://www.cockroachlabs.com/) - a cloud-
 - Ingress for web UI access
 - Service for SQL access
 - Export of connection details via Kubernetes Secret
+- Dynamic hostname generation based on environment name
 
 ## Prerequisites
 
@@ -58,7 +59,7 @@ The following table lists the configurable parameters for the CockroachDB chart 
 | `image.tag` | CockroachDB image tag | `v23.1.11` |
 | `image.pullPolicy` | Image pull policy | `IfNotPresent` |
 | `ingress.enabled` | Enable ingress for the web UI | `true` |
-| `ingress.host` | Hostname for the ingress | `cockroachdb.example.com` |
+| `ingress.host` | Hostname for the ingress | `cockroachdb-{env_name}.machinehack-new.clients.kloudlite.io` |
 | `ingress.className` | Ingress class name | `nginx` |
 | `resources.requests.cpu` | CPU request | `500m` |
 | `resources.requests.memory` | Memory request | `1Gi` |
@@ -75,7 +76,11 @@ The following table lists the configurable parameters for the CockroachDB chart 
 
 After the chart is deployed, you can access CockroachDB in several ways:
 
-1. **Web UI**: Access via the ingress hostname at `https://cockroachdb.example.com`
+1. **Web UI**: Access via the ingress hostname that's generated based on your environment name
+   
+   For example: `https://cockroachdb-myenv.machinehack-new.clients.kloudlite.io`
+   
+   The `{env_name}` placeholder in the ingress host will be automatically replaced with your actual environment name.
 
 2. **SQL Client**: Connect using the PostgreSQL-compatible SQL interface:
 
