@@ -1,14 +1,14 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ .Release.Name }}-cockroachdb-init
+  name: {{ .Release.Name }}-init
   labels:
     app: cockroachdb
     chart: {{ .Chart.Name }}-{{ .Chart.Version }}
     release: {{ .Release.Name }}
   annotations:
-    "helm.sh/hook": post-install,post-upgrade
-    "helm.sh/hook-weight": "5"
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "0"
     "helm.sh/hook-delete-policy": hook-succeeded
 spec:
   template:
@@ -17,17 +17,22 @@ spec:
         app: cockroachdb-init
         release: {{ .Release.Name }}
     spec:
+      restartPolicy: OnFailure
       containers:
-      - name: cockroachdb-init
+      - name: init-db
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
-        command: ["/bin/bash", "/scripts/init.sh"]
-        volumeMounts:
-        - name: init-script
-          mountPath: /scripts
-      volumes:
-      - name: init-script
-        configMap:
-          name: {{ .Release.Name }}-cockroachdb-init
-          defaultMode: 0755
-      restartPolicy: OnFailure 
+        command:
+          - "/bin/bash"
+          - "-c"
+          - |
+            set -e
+            # Initialize database
+            {{- range .Values.init.databases }}
+            /cockroach/cockroach sql --insecure --host={{ $.Release.Name }}-cockroachdb-0.{{ $.Release.Name }}-cockroachdb:{{ $.Values.service.grpcPort }} -e "CREATE DATABASE IF NOT EXISTS {{ . }};"
+            {{- end }}
+            
+            # Set password if provided
+            {{- if .Values.init.password }}
+            /cockroach/cockroach sql --insecure --host={{ $.Release.Name }}-cockroachdb-0.{{ $.Release.Name }}-cockroachdb:{{ $.Values.service.grpcPort }} -e "ALTER USER {{ .Values.init.username }} WITH PASSWORD '{{ .Values.init.password }}';"
+            {{- end }} 
