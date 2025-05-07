@@ -1,8 +1,7 @@
+# Jenkins Controller configuration
 controller:
-  serviceType: ClusterIP
-  installPlugins:
-    - kubernetes:3937.vd7b_82db_e347b_
-    - workflow-aggregator:590.v6a_d052e5a_a_b_5
+  type: "ClusterIP"
+  servicePort: 8080
   resources:
     requests:
       cpu: "1000m"
@@ -10,16 +9,16 @@ controller:
     limits:
       cpu: "2000m"
       memory: "4Gi"
-  servicePort: 8080
   serviceAccount:
-    name: jenkins-admin
+    name: "jenkins-admin"
   adminUser: "admin"
   adminPassword: "jenkins-admin"
-  jenkinsOpts: ""
 
+# Image configuration
 image:
-  pullPolicy: Always
+  pullPolicy: "Always"
 
+# Ingress configuration
 ingress:
   enabled: true
   host: "jenkins.{{ .Values.domain }}"
@@ -37,11 +36,7 @@ ingress:
       - "https://jenkins.{{ .Values.domain }}"
       - "https://{{ .Values.domain }}"
 
-expose:
-  enabled: true
-  host: ""
-  port: 8080
-
+# Persistence configuration
 persistence:
   enabled: true
   accessModes:
@@ -49,5 +44,5 @@ persistence:
   size: 50Gi
   storageClass: "kloudlite-storage-class"
 
-# Domain configuration - this should be overridden by the user
+# Domain configuration
 domain: "example.com" 
