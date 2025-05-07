@@ -1,0 +1,27 @@
+version: '3'
+
+tasks:
+  lint:
+    desc: Lint the helm chart
+    cmds:
+      - helm lint .
+
+  template:
+    desc: Template the helm chart
+    cmds:
+      - helm template . --debug
+
+  package:
+    desc: Package the helm chart
+    cmds:
+      - helm package .
+
+  install:
+    desc: Install the helm chart
+    cmds:
+      - helm install vscode-java . --namespace default --create-namespace
+
+  uninstall:
+    desc: Uninstall the helm chart
+    cmds:
+      - helm uninstall vscode-java --namespace default 

@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-jenkins-config
+  labels:
+    app: jenkins
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    release: {{ .Release.Name }}
+data:
+  default-config.groovy: |
+    import jenkins.model.*
+    import hudson.security.*
+    import jenkins.install.*
+
+    def instance = Jenkins.getInstance()
+    
+    // Skip initial setup wizard
+    instance.setInstallState(InstallState.INITIAL_SETUP_COMPLETED)
+    
+    // Install required plugins
+    def pluginManager = instance.getPluginManager()
+    def updateCenter = instance.getUpdateCenter()
+    updateCenter.updateAllSites()
+    {{- range .Values.controller.installPlugins }}
+    if (!pluginManager.getPlugin("{{ . }}")) {
+      def plugin = updateCenter.getPlugin("{{ . }}")
+      if (plugin) {
+        plugin.deploy()
+      }
+    }
+    {{- end }}
+    
+    instance.save() 

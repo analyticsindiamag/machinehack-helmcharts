@@ -1,0 +1,55 @@
+codeServer:
+  repository: "https://github.com/karthik1729/sample-java.git"
+  branch: "main"
+  env:
+    - name: "JAVA_HOME"
+      value: "/usr/lib/jvm/java-11-openjdk-amd64"
+    - name: "MAVEN_HOME"
+      value: "/usr/share/maven"
+  storage: 
+    size: "5Gi"
+    className: ""
+
+  nodeSelector: {}
+  tolerations: []
+
+  extensions:
+    - "vscjava.vscode-java-pack"
+    - "redhat.java"
+    - "vscjava.vscode-maven"
+    - "vscjava.vscode-java-debug"
+    - "vscjava.vscode-java-test"
+
+  resources:
+    requests:
+      cpu: "1000m"
+      memory: "1Gi"
+    limits:
+      cpu: "2000m"
+      memory: "2Gi"
+
+  ingress:
+    enabled: true
+    className: nginx
+    clusterIssuer: "kloudlite-cert-issuer"
+    host: "java-dev.example.com"
+    cors:
+      enabled: false
+      origins: []
+
+postgresql:
+  enabled: false
+  storage:
+    size: "1Gi"
+    # className: ""
+
+  nodeSelector: {}
+  tolerations: []
+
+  resources:
+    requests:
+      memory: 256Mi
+      cpu: 250m
+    limits:
+      memory: 512Mi
+      cpu: 500m 

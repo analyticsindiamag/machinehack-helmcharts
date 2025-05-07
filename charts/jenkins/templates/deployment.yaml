@@ -4,39 +4,79 @@ metadata:
   name: {{ .Release.Name }}-jenkins
   labels:
     app: jenkins
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    release: {{ .Release.Name }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1
   selector:
     matchLabels:
       app: jenkins
+      release: {{ .Release.Name }}
   template:
     metadata:
       labels:
         app: jenkins
+        release: {{ .Release.Name }}
     spec:
+      serviceAccountName: {{ .Values.controller.serviceAccount.name }}
       containers:
         - name: jenkins
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          image: "jenkins/jenkins:{{ .Values.controller.tag | default .Chart.AppVersion }}-lts-jdk11"
+          imagePullPolicy: {{ .Values.image.pullPolicy | default "IfNotPresent" }}
           ports:
-            - containerPort: 8080
-            - containerPort: 50000
+            - name: http
+              containerPort: {{ .Values.controller.servicePort }}
+            - name: agent
+              containerPort: 50000
           env:
+            - name: JENKINS_OPTS
+              value: "--prefix=/jenkins"
             - name: JENKINS_ADMIN_ID
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Release.Name }}-admin-secret
-                  key: JENKINS_USER
+              value: {{ .Values.controller.adminUser | quote }}
             - name: JENKINS_ADMIN_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Release.Name }}-admin-secret
-                  key: JENKINS_PASS
+              value: {{ .Values.controller.adminPassword | quote }}
+            - name: JAVA_OPTS
+              value: "-Djenkins.install.runSetupWizard=false"
           volumeMounts:
             - name: jenkins-home
               mountPath: /var/jenkins_home
-          resources: {{- toYaml .Values.resources | nindent 12 }}
+            - name: jenkins-config
+              mountPath: /var/jenkins_home/init.groovy.d/
+          resources:
+{{ toYaml .Values.controller.resources | indent 12 }}
+          livenessProbe:
+            httpGet:
+              path: /login
+              port: http
+            initialDelaySeconds: 90
+            timeoutSeconds: 5
+            failureThreshold: 12
+          readinessProbe:
+            httpGet:
+              path: /login
+              port: http
+            initialDelaySeconds: 60
+            timeoutSeconds: 5
       volumes:
         - name: jenkins-home
+          {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
             claimName: {{ .Release.Name }}-jenkins-pvc
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+        - name: jenkins-config
+          configMap:
+            name: {{ .Release.Name }}-jenkins-config
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
