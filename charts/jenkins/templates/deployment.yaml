@@ -30,7 +30,7 @@ spec:
               containerPort: 50000
           env:
             - name: JENKINS_OPTS
-              value: {{ .Values.controller.jenkinsOpts | quote }}
+              value: "--prefix=/jenkins"
             - name: JENKINS_ADMIN_ID
               valueFrom:
                 secretKeyRef:

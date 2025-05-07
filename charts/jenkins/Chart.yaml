@@ -8,4 +8,3 @@ home: https://www.jenkins.io
 icon: https://www.jenkins.io/images/logos/jenkins/jenkins.png
 sources:
   - https://github.com/jenkinsci/helm-charts
-

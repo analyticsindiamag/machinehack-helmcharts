@@ -7,10 +7,10 @@ metadata:
     chart: {{ .Chart.Name }}-{{ .Chart.Version }}
     release: {{ .Release.Name }}
 spec:
-  type: {{ .Values.controller.serviceType | default "ClusterIP" }}
+  type: {{ .Values.controller.serviceType }}
   ports:
-    - port: {{ .Values.controller.servicePort | default 8080 }}
-      targetPort: {{ .Values.controller.servicePort | default 8080 }}
+    - port: {{ .Values.controller.servicePort }}
+      targetPort: {{ .Values.controller.servicePort }}
       protocol: TCP
       name: http
     - port: 50000
