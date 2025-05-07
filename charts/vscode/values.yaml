@@ -6,14 +6,18 @@ codeServer:
     className: ""
 
   nodeSelector: {}
-  tolerations: []
+  tolerations:
+  - key: small_1
+    operator: "Equal"
+    value: "true"
+    effect: NoSchedule
 
   extensions: []
 
   resources:
     requests:
-      cpu: "500m"
-      memory: "500Mi"
+      cpu: "100m"
+      memory: "150Mi"
     limits:
       cpu: "1000m"
       memory: "1000Mi"
