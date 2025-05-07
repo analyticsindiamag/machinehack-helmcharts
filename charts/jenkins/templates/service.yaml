@@ -7,9 +7,9 @@ metadata:
     chart: {{ .Chart.Name }}-{{ .Chart.Version }}
     release: {{ .Release.Name }}
 spec:
-  type: {{ .Values.service.type }}
+  type: {{ .Values.controller.serviceType }}
   ports:
-    - port: {{ .Values.service.port }}
+    - port: {{ .Values.controller.servicePort }}
       targetPort: {{ .Values.controller.servicePort }}
       protocol: TCP
       name: http

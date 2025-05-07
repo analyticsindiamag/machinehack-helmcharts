@@ -1,34 +1,41 @@
 controller:
-  serviceType: NodePort
+  serviceType: ClusterIP
   installPlugins:
     - kubernetes:3937.vd7b_82db_e347b_
     - workflow-aggregator:590.v6a_d052e5a_a_b_5
-  adminUser: admin
-  adminPassword: admin123
   resources:
     requests:
-      cpu: "100m"
-      memory: "256Mi"
+      cpu: "1000m"
+      memory: "2Gi"
     limits:
-      cpu: "200m"
-      memory: "512Mi"
+      cpu: "2000m"
+      memory: "4Gi"
   servicePort: 8080
   serviceAccount:
-    name: kloudlite-cluster-admin
+    name: jenkins-admin
+  adminUser: "admin"
+  adminPassword: "jenkins-admin"
+  jenkinsOpts: ""
 
-service:
-  type: NodePort
-  port: 8080
+image:
+  pullPolicy: Always
 
 ingress:
   enabled: true
-  host: "jenkins-instance-2.machinehack-new.clients.kloudlite.io"
+  host: "jenkins.{{ .Values.domain }}"
   className: "nginx"
-  clusterIssuer: "kloudlite-cert-issuer"
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: "kloudlite-cert-issuer"
+  tls:
+    - secretName: jenkins-tls
+      hosts:
+        - "jenkins.{{ .Values.domain }}"
   cors:
     enabled: true
     origins:
-      - "*"
+      - "https://jenkins.{{ .Values.domain }}"
+      - "https://{{ .Values.domain }}"
 
 expose:
   enabled: true
@@ -39,5 +46,8 @@ persistence:
   enabled: true
   accessModes:
     - ReadWriteOnce
-  size: 10Gi
-  storageClass: ""
+  size: 50Gi
+  storageClass: "kloudlite-storage-class"
+
+# Domain configuration - this should be overridden by the user
+domain: "example.com" 

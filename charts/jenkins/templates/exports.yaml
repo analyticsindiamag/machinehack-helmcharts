@@ -13,4 +13,4 @@ stringData:
   JENKINS_USER: "{{.Values.controller.adminUser}}"
   JENKINS_PASSWORD: "{{.Values.controller.adminPassword}}"
   JENKINS_HOST: "{{.Release.Name}}-jenkins.{{.Release.Namespace}}.svc.cluster.local"
-  JENKINS_PORT: "{{.Values.service.port}}"
+  JENKINS_PORT: "{{.Values.controller.servicePort}}"

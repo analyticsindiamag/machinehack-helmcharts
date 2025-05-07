@@ -30,13 +30,19 @@ spec:
               containerPort: 50000
           env:
             - name: JENKINS_OPTS
-              value: "--prefix=/jenkins"
+              value: {{ .Values.controller.jenkinsOpts | quote }}
             - name: JENKINS_ADMIN_ID
-              value: {{ .Values.controller.adminUser | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: jenkins-admin-credentials
+                  key: jenkins-admin-user
             - name: JENKINS_ADMIN_PASSWORD
-              value: {{ .Values.controller.adminPassword | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: jenkins-admin-credentials
+                  key: jenkins-admin-password
             - name: JAVA_OPTS
-              value: "-Djenkins.install.runSetupWizard=false"
+              value: "-Djenkins.install.runSetupWizard=false -Dhudson.model.DirectoryBrowserSupport.CSP=\"default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';\""
           volumeMounts:
             - name: jenkins-home
               mountPath: /var/jenkins_home

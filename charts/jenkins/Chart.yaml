@@ -8,7 +8,4 @@ home: https://www.jenkins.io
 icon: https://www.jenkins.io/images/logos/jenkins/jenkins.png
 sources:
   - https://github.com/jenkinsci/helm-charts
-dependencies:
-  - name: jenkins
-    version: 5.1.9
-    repository: https://charts.jenkins.io
+
