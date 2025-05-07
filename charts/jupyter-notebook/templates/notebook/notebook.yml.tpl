@@ -3,16 +3,16 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: {{ include "notebook.secret.name" . }}
-  namespace: {{.Release.Namespace}}
+  namespace: {{ .Release.Namespace }}
 type: Opaque
-data:
-  {{ include "notebook.secret.keys.jupyter-token" . }}: {{ include "variables.notebook-server-token" . | b64enc }}
+stringData:
+  {{ include "notebook.secret.keys.jupyter-token" . }}: {{ include "variables.notebook-server-token" . }}
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "notebook.name" . }}
-  namespace: {{.Release.Namespace}}
+  namespace: {{ .Release.Namespace }}
   labels:
     app: {{ include "notebook.name" . }}
 spec:
@@ -54,7 +54,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ include "notebook.name" . }}
-  namespace: {{.Release.Namespace}}
+  namespace: {{ .Release.Namespace }}
 spec:
   selector:
     app: {{ include "notebook.name" . }}
@@ -68,7 +68,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: {{ include "notebook.pvc.name" . }}
-  namespace: {{.Release.Namespace}}
+  namespace: {{ .Release.Namespace }}
 spec:
   accessModes:
     - ReadWriteOnce
@@ -84,7 +84,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ include "notebook.name" . }}
-  namespace: {{.Release.Namespace}}
+  namespace: {{ .Release.Namespace }}
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/secure-backends: "true"
