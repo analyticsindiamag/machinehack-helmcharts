@@ -16,10 +16,10 @@ notebook:
 
   ingress:
     enabled: false
-    className: ""
+    className: "nginx" #updated this [regression was working fine without this change]
 
-    host: ""
-    clusterIssuer: ""
+    host: "google.com" #updated this [regression was working fine without this change]
+    clusterIssuer: "kloudlite-cert-issuer" #updated this  [regression was working fine  without this change]
 
     cors:
       enabled: false
