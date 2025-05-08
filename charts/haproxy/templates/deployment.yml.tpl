@@ -18,6 +18,11 @@ spec:
         - name: haproxy-config
           configMap:
             name: {{ .Release.Name }}-haproxy-config
+        {{- if .Values.config.ssl.enabled }}
+        - name: ssl-certs
+          secret:
+            secretName: haproxy-combined-cert
+        {{- end }}
       containers:
         - name: haproxy
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -25,6 +30,10 @@ spec:
           ports:
             - name: http
               containerPort: 80
+            {{- if .Values.config.ssl.enabled }}
+            - name: https
+              containerPort: 443
+            {{- end }}
             {{- if .Values.config.stats.enabled }}
             - name: stats
               containerPort: 8404
@@ -32,6 +41,11 @@ spec:
           volumeMounts:
             - name: haproxy-config
               mountPath: /usr/local/etc/haproxy/
+            {{- if .Values.config.ssl.enabled }}
+            - name: ssl-certs
+              mountPath: /etc/ssl/private
+              readOnly: true
+            {{- end }}
           resources: {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
       nodeSelector:

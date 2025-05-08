@@ -9,20 +9,43 @@ data:
     global
       daemon
       maxconn 4096
-      stats socket /var/run/haproxy.sock mode 600 level admin
-      stats timeout 2m
+      {{- if .Values.config.compression.enabled }}
+      tune.ssl.default-dh-param 2048
+      {{- end }}
 
     defaults
       mode http
       timeout connect 5000ms
       timeout client 50000ms
       timeout server 50000ms
-      log global
       option httplog
+      {{- if .Values.config.compression.enabled }}
+      compression algo gzip
+      compression type {{ .Values.config.compression.types }}
+      {{- end }}
 
     frontend http-in
       bind *:80
+      {{- if and .Values.config.ssl.enabled .Values.config.ssl.redirect }}
+      redirect scheme https code 301 if !{ ssl_fc }
+      {{- end }}
+      {{- if .Values.config.headers.enabled }}
+      {{- range $key, $value := .Values.config.headers.add }}
+      http-response set-header {{ $key }} "{{ $value }}"
+      {{- end }}
+      {{- end }}
       default_backend backend_servers
+
+    {{- if .Values.config.ssl.enabled }}
+    frontend https-in
+      bind *:443 ssl crt /etc/ssl/private/combined.pem
+      {{- if .Values.config.headers.enabled }}
+      {{- range $key, $value := .Values.config.headers.add }}
+      http-response set-header {{ $key }} "{{ $value }}"
+      {{- end }}
+      {{- end }}
+      default_backend backend_servers
+    {{- end }}
 
     {{- if .Values.config.stats.enabled }}
     frontend stats
@@ -37,5 +60,6 @@ data:
 
     backend backend_servers
       balance roundrobin
-      option httpchk GET / HTTP/1.1\r\nHost:\ {{ .Values.ingress.host }}
+      option httpchk
+      http-check send meth GET uri / ver HTTP/1.1 hdr Host {{ .Values.ingress.host }}
       server default {{ .Values.config.defaultBackend }} check 
