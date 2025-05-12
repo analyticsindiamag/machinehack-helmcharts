@@ -1,30 +1,37 @@
-ingress:
-  enabled: true
-  className: nginx
-  path: /neo4j
-  host: neo4j.machinehack-new.clients.kloudlite.io
-  architecture: "standalone"
-  tls:
+neo4j:
+  architecture: standalone
+  auth:
+    password: ""
+    existingPasswordSecret: ""
+  ingress:
     enabled: true
-    clusterIssuer: "kloudlite-cert-issuer"
-  cors:
-    enabled: true
-    origins:
-      - "*"
-    
-  volumePermissions:
-    enabled: true
-
-  arbiter:
-    enabled: false
-
+    className: nginx
+    host: ""
+    path: /neo4j
+    pathType: Prefix
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /$2
+      nginx.ingress.kubernetes.io/secure-backends: "true"
+      nginx.ingress.kubernetes.io/proxy-body-size: 10m
+      nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS, DELETE"
+      nginx.ingress.kubernetes.io/cors-allow-origin: "*"
+      nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+      nginx.ingress.kubernetes.io/cors-allow-headers: "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization"
+    tls:
+      hosts:
+        - "neo4j.machinehack-new.clients.kloudlite.io"
+      clusterIssuer: "kloudlite-cert-issuer"
+  service:
+    type: LoadBalancer
+    ports:
+      http: 7474
+      bolt: 7687
   resources:
-    requests:
-      cpu: "200m"
-      memory: "256Mi"
     limits:
-      cpu: "400m"
-      memory: "512Mi"
-
+      cpu: 400m
+      memory: 512Mi
+    requests:
+      cpu: 200m
+      memory: 256Mi
   nodeSelector: {}
   tolerations: []
