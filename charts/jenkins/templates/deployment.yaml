@@ -18,7 +18,6 @@ spec:
         app: jenkins
         release: {{ .Release.Name }}
     spec:
-      serviceAccountName: {{ .Values.controller.serviceAccount.name }}
       containers:
         - name: jenkins
           image: "jenkins/jenkins:{{ .Values.controller.tag | default .Chart.AppVersion }}-lts-jdk11"

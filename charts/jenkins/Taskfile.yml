@@ -1,0 +1,22 @@
+version: 3
+
+vars:
+  ReleaseName: "jenkins"
+  ReleaseNamespace: "testing-jenkins"
+
+tasks:
+  install:
+    cmds:
+      - helm upgrade --install {{.ReleaseName}} -n {{.ReleaseNamespace}} --create-namespace . -f Values.yaml
+
+  template:
+    cmds:
+      - helm template --dry-run {{.ReleaseName}} -n {{.ReleaseNamespace}} --create-namespace . -f Values.yaml
+
+  uninstall:
+    cmds:
+      - helm uninstall {{.ReleaseName}} -n {{.ReleaseNamespace}}
+
+  lint:
+    cmds:
+      - helm lint . -f Values.yaml 

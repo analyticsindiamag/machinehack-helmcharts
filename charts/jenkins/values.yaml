@@ -1,5 +1,5 @@
 controller:
-  serviceType: NodePort
+  serviceType: ClusterIP
   installPlugins:
     - kubernetes:3937.vd7b_82db_e347b_
     - workflow-aggregator:590.v6a_d052e5a_a_b_5
@@ -11,8 +11,6 @@ controller:
       cpu: "1000m"
       memory: "2Gi"
   servicePort: 8080
-  serviceAccount:
-    name: jenkins-admin
   adminUser: "admin"
   adminPassword: "jenkins-admin"
 
