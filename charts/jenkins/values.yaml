@@ -38,4 +38,4 @@ persistence:
   accessModes:
     - ReadWriteOnce
   size: 20Gi
-  storageClass: "standard"
+  storageClass: "ebs-sc-ap-south-1b"
