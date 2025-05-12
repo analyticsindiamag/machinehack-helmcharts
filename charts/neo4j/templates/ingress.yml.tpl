@@ -1,4 +1,9 @@
 {{- if .Values.ingress.enabled }}
+{{- if not .Values.ingress.host }}
+{{- if not .Release.IsUpgrade }}
+{{- fail "A valid ingress.host is required. Please provide a host value in your values or API request" }}
+{{- end }}
+{{- end }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -22,6 +27,7 @@ spec:
   ingressClassName: {{.Values.ingress.className}}
   {{- end }}
   rules:
+  {{- if .Values.ingress.host }}
   - host: {{ .Values.ingress.host }}
     http:
       paths:
@@ -32,8 +38,11 @@ spec:
             name: {{.Release.Name}}
             port:
               number: 7474
+  {{- end }}
+  {{- if and .Values.ingress.tls.enabled .Values.ingress.host }}
   tls:
   - hosts:
     - {{ .Values.ingress.host }}
-    secretName: {{ .Values.ingress.host }}-tls
+    secretName: {{ .Values.ingress.host | replace "." "-" }}-tls
+  {{- end }}
 {{- end }}

@@ -11,7 +11,7 @@ tasks:
 
   template:
     cmds:
-      - helm template --dry-run {{.ReleaseName}} -n {{.ReleaseNamespace}} --create-namespace .
+      - helm template --dry-run {{.ReleaseName}} -n {{.ReleaseNamespace}} --create-namespace . --set ingress.host=neo4j-instance.machinehack-new.clients.kloudlite.io
 
   uninstall:
     cmds:
