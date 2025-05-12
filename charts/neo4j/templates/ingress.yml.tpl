@@ -5,12 +5,8 @@ metadata:
   name: nginx
   namespace: {{.Release.Namespace}}
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/secure-backends: "true"
-    nginx.ingress.kubernetes.io/proxy-body-size: 10m
-    {{- if .Values.ingress.tls.enabled }}
-    cert-manager.io/cluster-issuer: {{ required "a valid cluster issuer must be provided" .Values.ingress.tls.clusterIssuer}}
-    {{- end }}
+    cert-manager.io/cluster-issuer: kloudlite-cert-issuer
+
 spec:
   {{- if .Values.ingress.className }}
   ingressClassName: {{.Values.ingress.className}}

@@ -1,11 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{.Release.Name}}
-  namespace: {{.Release.Namespace}}
+  name: {{.Release.Name}}-neo4j
 spec:
   selector:
-    app: {{.Release.Name}}
+    app: neo4j
   ports:
     - port: 7474
       targetPort: 7474
