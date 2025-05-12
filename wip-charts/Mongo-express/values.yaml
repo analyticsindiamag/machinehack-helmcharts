@@ -1,3 +1,0 @@
-mongodbServer: my-mongodb
-service:
-  type: NodePort
