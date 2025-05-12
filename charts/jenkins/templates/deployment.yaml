@@ -20,8 +20,8 @@ spec:
     spec:
       containers:
         - name: jenkins
-          image: "jenkins/jenkins:{{ .Values.controller.tag | default .Chart.AppVersion }}-lts-jdk11"
-          imagePullPolicy: {{ .Values.image.pullPolicy | default "IfNotPresent" }}
+          image: "{{ .Values.image.repository }}:{{ .Values.controller.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
               containerPort: {{ .Values.controller.servicePort }}

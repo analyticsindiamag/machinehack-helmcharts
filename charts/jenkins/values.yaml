@@ -13,9 +13,11 @@ controller:
   servicePort: 8080
   adminUser: "admin"
   adminPassword: "jenkins-admin"
+  tag: "2.426.1-lts-jdk11"
 
 image:
-  pullPolicy: IfNotPresent
+  repository: jenkins/jenkins
+  pullPolicy: Always
 
 ingress:
   enabled: true
