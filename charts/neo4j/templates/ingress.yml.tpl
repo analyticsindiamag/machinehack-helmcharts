@@ -5,11 +5,17 @@ metadata:
   name: nginx
   namespace: {{.Release.Namespace}}
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
     nginx.ingress.kubernetes.io/secure-backends: "true"
     nginx.ingress.kubernetes.io/proxy-body-size: 10m
     {{- if .Values.ingress.tls.enabled }}
     cert-manager.io/cluster-issuer: {{ required "a valid cluster issuer must be provided" .Values.ingress.tls.clusterIssuer}}
+    {{- end }}
+    {{- if .Values.ingress.cors.enabled }}
+    nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS, DELETE"
+    nginx.ingress.kubernetes.io/cors-allow-origin: {{ join "," .Values.ingress.cors.origins | quote }}
+    nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+    nginx.ingress.kubernetes.io/cors-allow-headers: "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization"
     {{- end }}
 spec:
   {{- if .Values.ingress.className }}
@@ -19,7 +25,7 @@ spec:
   - host: {{ .Values.ingress.host }}
     http:
       paths:
-      - path: /
+      - path: {{ .Values.ingress.path }}(/|$)(.*)
         pathType: Prefix
         backend:
           service:
