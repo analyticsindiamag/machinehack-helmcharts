@@ -2,6 +2,7 @@ ingress:
   enabled: true
   className: nginx
   path: /neo4j
+  host: neo4j.machinehack-new.clients.kloudlite.io
   architecture: "standalone"
   tls:
     enabled: true
