@@ -6,11 +6,12 @@ neo4j:
   ingress:
     enabled: true
     className: nginx
-    host: ""
+    host: "neo4j.machinehack-new.clients.kloudlite.io"
     path: /
     pathType: Prefix
     annotations:
-      nginx.ingress.kubernetes.io/rewrite-target: /
+      nginx.ingress.kubernetes.io/rewrite-target: /$1
+      nginx.ingress.kubernetes.io/use-regex: "true"
       nginx.ingress.kubernetes.io/secure-backends: "true"
       nginx.ingress.kubernetes.io/proxy-body-size: 10m
       nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS, DELETE"
@@ -18,9 +19,10 @@ neo4j:
       nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
       nginx.ingress.kubernetes.io/cors-allow-headers: "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization"
     tls:
-      hosts:
-        - "neo4j.machinehack-new.clients.kloudlite.io"
-      clusterIssuer: "kloudlite-cert-issuer"
+      - secretName: neo4j-tls
+        hosts:
+          - "neo4j.machinehack-new.clients.kloudlite.io"
+    clusterIssuer: "kloudlite-cert-issuer"
   service:
     type: LoadBalancer
     ports:
