@@ -21,7 +21,7 @@ ingress:
     clusterIssuer: "kloudlite-cert-issuer"
 replicaCount: 1
 resources: {}
-  
+
 env:
   - name: N8N_BASIC_AUTH_ACTIVE
     value: "true"
@@ -29,6 +29,12 @@ env:
     value: "admin"
   - name: N8N_BASIC_AUTH_PASSWORD
     value: "password"
+  - name: N8N_USER_MANAGEMENT_DISABLED
+    value: "true"
+  - name: N8N_AUTH_OVERWRITE_LOGIN
+    value: "admin"
+  - name: N8N_AUTH_OVERWRITE_PASSWORD
+    value: "securepass"
 
 nodeSelector: {}
 tolerations: []
