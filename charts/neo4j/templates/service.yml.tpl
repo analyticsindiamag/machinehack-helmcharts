@@ -1,15 +1,18 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{.Release.Name}}-neo4j
+  name: {{ .Release.Name }}-neo4j
+  namespace: {{ .Release.Namespace }}
 spec:
   selector:
-    app: neo4j
+    app: {{ .Release.Name }}-neo4j
   ports:
-    - port: 7474
+    - name: http
+      protocol: TCP
+      port: 7474       # Neo4j Browser/HTTP port
       targetPort: 7474
-      name: http
-    - port: 7687
+    - name: bolt
+      protocol: TCP
+      port: 7687       # Neo4j Bolt protocol port
       targetPort: 7687
-      name: bolt
-  type: ClusterIP
+  type: ClusterIP   

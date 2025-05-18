@@ -2,8 +2,8 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: nginx
-  namespace: {{.Release.Namespace}}
+  name: {{ .Release.Name }}-neo4j
+  namespace: {{ .Release.Namespace }}
   annotations:
     cert-manager.io/cluster-issuer: kloudlite-cert-issuer
 
@@ -19,7 +19,7 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: {{.Release.Name}}
+            name: {{.Release.Name}}-neo4j
             port:
               number: 7474
   tls:
