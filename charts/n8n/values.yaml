@@ -20,7 +20,13 @@ ingress:
     enabled: true
     clusterIssuer: "kloudlite-cert-issuer"
 replicaCount: 1
-resources: {}
+resources:
+  requests:
+    cpu: "250m"
+    memory: "512Mi"
+  limits:
+    cpu: "500m"
+    memory: "1Gi"
 
 env:
   - name: N8N_BASIC_AUTH_ACTIVE
