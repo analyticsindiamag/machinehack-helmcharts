@@ -41,6 +41,8 @@ env:
     value: "admin"
   - name: N8N_AUTH_OVERWRITE_PASSWORD
     value: "securepass"
+  - name: N8N_USER_MANAGEMENT_DISABLED
+    value: "true"
 
 nodeSelector: {}
 tolerations: []
