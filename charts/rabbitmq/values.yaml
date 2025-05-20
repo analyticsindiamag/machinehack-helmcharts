@@ -101,7 +101,7 @@ commonLabels: {}
 ## Ref: https://servicebinding.io/service-provider/
 ##
 serviceBindings:
-  enabled: false
+  enabled: true
 ## @param enableServiceLinks Whether information about services should be injected into pod's environment variable
 ## The environment variables injected by service links are not used, but can lead to slow boot times or slow running of the scripts when there are many services in the current namespace.
 ## If you experience slow pod startups or slow running of the scripts you probably want to set this to `false`.
@@ -154,7 +154,7 @@ auth:
   ## ref: https://github.com/bitnami/containers/tree/main/bitnami/rabbitmq#environment-variables
   ##
   password: "admin123"
-  ## @param auth.securePassword Whether to set the RabbitMQ password securely
+  ## @param auth.securePassword Whether to set the RabbitMQ password securely. This is incompatible with loading external RabbitMQ definitions and 'true' when not setting the auth.password parameter.
   ## ref: https://github.com/bitnami/containers/tree/main/bitnami/rabbitmq#environment-variables
   ##
   securePassword: false
@@ -162,13 +162,6 @@ auth:
   ## ref: https://github.com/bitnami/containers/tree/main/bitnami/rabbitmq#environment-variables
   ##
   updatePassword: true
-  ## @param auth.enableLoopbackUser If enabled, the user `auth.username` can only connect from localhost
-  ##
-  enableLoopbackUser: false
-  ## @param auth.erlangCookie Erlang cookie to determine whether different nodes are allowed to communicate with each other
-  ## ref: https://github.com/bitnami/containers/tree/main/bitnami/rabbitmq#environment-variables
-  ##
-  erlangCookie: "RABBITMQ_ERLANG_COOKIE"
   ## @param auth.existingPasswordSecret Existing secret with RabbitMQ credentials (existing secret must contain a value for `rabbitmq-password` key or override with setting auth.existingSecretPasswordKey)
   ## e.g:
   ## existingPasswordSecret: name-of-existing-secret
@@ -178,6 +171,13 @@ auth:
   ## NOTE: ignored unless `auth.existingSecret` parameter is set
   ##
   existingSecretPasswordKey: ""
+  ## @param auth.enableLoopbackUser If enabled, the user `auth.username` can only connect from localhost
+  ##
+  enableLoopbackUser: false
+  ## @param auth.erlangCookie Erlang cookie to determine whether different nodes are allowed to communicate with each other
+  ## ref: https://github.com/bitnami/containers/tree/main/bitnami/rabbitmq#environment-variables
+  ##
+  erlangCookie: "RABBITMQ_ERLANG_COOKIE"
   ## @param auth.existingErlangSecret Existing secret with RabbitMQ Erlang cookie (must contain a value for `rabbitmq-erlang-cookie` key or override with auth.existingSecretErlangKey)
   ## e.g:
   ## existingErlangSecret: name-of-existing-secret
@@ -330,7 +330,19 @@ terminationGracePeriodSeconds: 120
 ##   - name: FOO
 ##     value: BAR
 ##
-extraEnvVars: []
+extraEnvVars:
+  - name: RABBITMQ_HOST
+    value: "$(MY_POD_IP)"
+  - name: RABBITMQ_PORT
+    value: "5672"
+  - name: RABBITMQ_USERNAME
+    value: "admin"
+  - name: RABBITMQ_PASSWORD
+    value: "admin123"
+  - name: RABBITMQ_VHOST
+    value: "/"
+  - name: RABBITMQ_EXPOSE_CREDENTIALS
+    value: "true"
 ## @param extraEnvVarsCM Name of existing ConfigMap containing extra environment variables
 ##
 extraEnvVarsCM: ""
@@ -846,7 +858,7 @@ readinessProbe:
   failureThreshold: 3
   successThreshold: 1
 ## Configure RabbitMQ containers' extra options for startup probe
-## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes
+## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes
 ## @param startupProbe.enabled Enable startupProbe
 ## @param startupProbe.initialDelaySeconds Initial delay seconds for startupProbe
 ## @param startupProbe.periodSeconds Period seconds for startupProbe
