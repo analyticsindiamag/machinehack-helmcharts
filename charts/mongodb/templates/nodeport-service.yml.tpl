@@ -10,6 +10,7 @@ spec:
     port: 27017
     protocol: TCP
     targetPort: {{.Release.Name}}
+    nodePort: 31827
   selector:
     app.kubernetes.io/component: {{.Release.Name}}
     app.kubernetes.io/instance: {{.Release.Name}}
