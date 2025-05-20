@@ -19,8 +19,8 @@ codeServer:
       cpu: "100m"
       memory: "150Mi"
     limits:
-      cpu: "1000m"
-      memory: "1000Mi"
+      cpu: "200m"
+      memory: "300Mi"
 
   ingress:
     enabled: false

@@ -14,9 +14,20 @@ spec:
         app: {{.Release.Name}}
     spec:
       containers:
-        - name: n8n
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+      - name: n8n
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        command:
+        - "sh"
+        - "-c"
+        - >
+          n8n user:create
+          --email admin@machinehack.com
+          --password $13423@
+          --first-name Admin
+          --last-name User
+          --role owner &&
+          n8n
           ports:
             - containerPort: 5678
           env:
