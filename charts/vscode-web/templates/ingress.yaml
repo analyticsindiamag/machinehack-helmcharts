@@ -5,14 +5,12 @@ metadata:
   name: {{ include "vscode-web.fullname" . }}
   labels:
     app: {{ include "vscode-web.name" . }}
-  {{- if .Values.codeServer.ingress.className }}
+  {{- if .Values.codeServer.ingress.clusterIssuer }}
   annotations:
-    kubernetes.io/ingress.class: {{ .Values.codeServer.ingress.className }}
-    {{- if .Values.codeServer.ingress.clusterIssuer }}
     cert-manager.io/cluster-issuer: {{ .Values.codeServer.ingress.clusterIssuer }}
-    {{- end }}
   {{- end }}
 spec:
+  ingressClassName: {{ .Values.codeServer.ingress.className }}
   rules:
     - host: {{ .Values.codeServer.ingress.host }}
       http:
