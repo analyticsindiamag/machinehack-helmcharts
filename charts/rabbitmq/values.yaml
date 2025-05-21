@@ -149,11 +149,11 @@ auth:
   ## @param auth.username RabbitMQ application username
   ## ref: https://github.com/bitnami/containers/tree/main/bitnami/rabbitmq#environment-variables
   ##
-  username: "admin"
+  username: "rabbitmq"
   ## @param auth.password RabbitMQ application password
   ## ref: https://github.com/bitnami/containers/tree/main/bitnami/rabbitmq#environment-variables
   ##
-  password: "admin123"
+  password: "rabbitmq"
   ## @param auth.securePassword Whether to set the RabbitMQ password securely. This is incompatible with loading external RabbitMQ definitions and 'true' when not setting the auth.password parameter.
   ## ref: https://github.com/bitnami/containers/tree/main/bitnami/rabbitmq#environment-variables
   ##
@@ -276,7 +276,7 @@ extraPlugins: "rabbitmq_auth_backend_ldap"
 clustering:
   ## @param clustering.enabled Enable RabbitMQ clustering
   ##
-  enabled: true
+  enabled: false
   ## @param clustering.name RabbitMQ cluster name
   ## If not set, a name is generated using the common.names.fullname template
   ##
@@ -331,18 +331,20 @@ terminationGracePeriodSeconds: 120
 ##     value: BAR
 ##
 extraEnvVars:
+  - name: RABBITMQ_EXPOSE_CREDENTIALS
+    value: "true"
   - name: RABBITMQ_HOST
-    value: "$(MY_POD_IP)"
+    valueFrom:
+      fieldRef:
+        fieldPath: status.podIP
   - name: RABBITMQ_PORT
     value: "5672"
   - name: RABBITMQ_USERNAME
-    value: "admin"
+    value: "rabbitmq"
   - name: RABBITMQ_PASSWORD
-    value: "admin123"
+    value: "rabbitmq"
   - name: RABBITMQ_VHOST
     value: "/"
-  - name: RABBITMQ_EXPOSE_CREDENTIALS
-    value: "true"
 ## @param extraEnvVarsCM Name of existing ConfigMap containing extra environment variables
 ##
 extraEnvVarsCM: ""
