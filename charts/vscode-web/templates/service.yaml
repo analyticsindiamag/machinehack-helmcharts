@@ -3,13 +3,13 @@ kind: Service
 metadata:
   name: {{ include "vscode-web.fullname" . }}
   labels:
-    {{- include "vscode-web.labels" . | nindent 4 }}
+    app: {{ include "vscode-web.name" . }}
 spec:
-  type: {{ .Values.service.type }}
+  type: ClusterIP
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
+    - port: 80
+      targetPort: 8080
       protocol: TCP
       name: http
   selector:
-    {{- include "vscode-web.selectorLabels" . | nindent 4 }}
+    app: {{ include "vscode-web.name" . }} 

@@ -1,17 +1,13 @@
-{{- if .Values.persistence.enabled }}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ include "vscode-web.fullname" . }}
+  name: {{ include "vscode-web.fullname" . }}-pvc
   labels:
-    {{- include "vscode-web.labels" . | nindent 4 }}
+    app: {{ include "vscode-web.name" . }}
 spec:
   accessModes:
-    - {{ .Values.persistence.accessMode }}
-  {{- if .Values.persistence.storageClass }}
-  storageClassName: {{ .Values.persistence.storageClass }}
-  {{- end }}
+    - ReadWriteOnce
   resources:
     requests:
-      storage: {{ .Values.persistence.size }}
-{{- end }} 
+      storage: {{ .Values.codeServer.storage.size }}
+  storageClassName: {{ .Values.codeServer.storage.className | quote }} 
