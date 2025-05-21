@@ -1,5 +1,6 @@
 codeServer:
   repository: "https://github.com/kloudlite/website.git"
+  password: "Feth03l67dp8Uaju0cCtMSKclmuuY" 
   branch: "release-v1.0.0"
   storage: 
     size: "5Gi"

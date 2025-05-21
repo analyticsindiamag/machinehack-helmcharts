@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: "{{.Release.Name}}-exports"
+  namespace: {{.Release.Namespace}}
+type: Opaque
+stringData:
+  PASSWORD: {{ .Values.codeServer.password | quote }}
+  URL: https://vscode-web:{{ .Values.codeServer.password | quote }}@{{ .Values.codeServer.ingress.host }}
