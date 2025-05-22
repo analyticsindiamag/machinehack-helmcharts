@@ -4,7 +4,7 @@ codeServer:
   branch: "release-v1.0.0"
   storage: 
     size: "5Gi"
-    className: ""  # Changed from "standard" to "longhorn" which is more commonly available
+    className: "ebs-sc-ap-south-1b"  # Changed from "standard" to "longhorn" which is more commonly available
 
   resources:
     requests:
