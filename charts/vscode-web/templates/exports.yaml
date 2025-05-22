@@ -6,4 +6,4 @@ metadata:
 type: Opaque
 stringData:
   PASSWORD: {{ .Values.codeServer.password | quote }}
-  URL: https://vscode-web:{{ .Values.codeServer.password | quote }}@{{ .Values.codeServer.ingress.host }}
+  URL: https://{{ .Values.codeServer.ingress.host }}

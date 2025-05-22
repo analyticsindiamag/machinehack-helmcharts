@@ -10,4 +10,4 @@ spec:
   resources:
     requests:
       storage: {{ .Values.codeServer.storage.size }}
-  storageClassName: {{ .Values.codeServer.storage.className | quote }} 
+  storageClassName: ebs-sc-ap-south-1b
