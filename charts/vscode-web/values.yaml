@@ -1,23 +1,50 @@
 codeServer:
   repository: "https://github.com/kloudlite/website.git"
-  password: "Feth03l67dp8Uaju0cCtMSKclmuuY" 
   branch: "release-v1.0.0"
   storage: 
     size: "5Gi"
-    className: "ebs-sc-ap-south-1b"  # Changed from "standard" to "longhorn" which is more commonly available
+    className: ""
+
+  nodeSelector: {}
+  tolerations:
+  - key: small_1
+    operator: "Equal"
+    value: "true"
+    effect: NoSchedule
+
+  extensions: []
 
   resources:
     requests:
-      cpu: "200m"
-      memory: "256Mi"
+      cpu: "100m"
+      memory: "150Mi"
     limits:
-      cpu: "500m"
-      memory: "512Mi"
+      cpu: "200m"
+      memory: "300Mi"
 
   ingress:
-    enabled: true
-    className: "nginx"
-    host: "vscode-web.machinehack-new.clients.kloudlite.io"  # Change this to your desired hostname
+    enabled: false
+    className: "nginx" #updated this [regression was working fine without this change]
+    clusterIssuer: "kloudlite-cert-issuer" #updated this [regression was working fine without this change]
+
+    host: "google.com" #updated this [regression was working fine without this change]
     cors:
-      enabled: true
-      origins: ["*"] 
+      enabled: false
+      origins: []
+
+mongodb:
+  enabled: false
+  storage:
+    size: "1Gi"
+    # className: ""
+
+  nodeSelector: {}
+  tolerations: []
+
+  resources:
+    requests:
+      memory: 256Mi
+      cpu: 250m
+    limits:
+      memory: 512Mi
+      cpu: 500m
