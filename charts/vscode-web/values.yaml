@@ -33,7 +33,7 @@ codeServer:
 
   ingress:
     enabled: true
-    className: "nginx"
+    className: nginx
     clusterIssuer: "kloudlite-cert-issuer"
     host: "machinehack-new.clients.kloudlite.io"  # Replace with your actual domain
     cors:
