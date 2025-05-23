@@ -14,13 +14,21 @@ codeServer:
 
   extensions: []
 
+  # resources:
+  #   requests:
+  #     cpu: "100m"
+  #     memory: "150Mi"
+  #   limits:
+  #     cpu: "200m"
+  #     memory: "300Mi"
+
   resources:
     requests:
-      cpu: "100m"
-      memory: "150Mi"
+      cpu: "250m"
+      memory: "512Mi"
     limits:
-      cpu: "200m"
-      memory: "300Mi"
+      cpu: "500m"
+      memory: "1Gi"
 
   ingress:
     enabled: false
