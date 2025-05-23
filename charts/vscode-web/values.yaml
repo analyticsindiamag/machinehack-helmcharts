@@ -32,11 +32,10 @@ codeServer:
 
 
   ingress:
-    enabled: false
-    className: "nginx" #updated this [regression was working fine without this change]
-    clusterIssuer: "kloudlite-cert-issuer" #updated this [regression was working fine without this change]
-
-    host: "google.com" #updated this [regression was working fine without this change]
+    enabled: true
+    className: "nginx"
+    clusterIssuer: "kloudlite-cert-issuer"
+    host: "machinehack-new.clients.kloudlite.io"  # Replace with your actual domain
     cors:
       enabled: false
       origins: []
