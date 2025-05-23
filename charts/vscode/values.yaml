@@ -24,7 +24,7 @@ codeServer:
 
   ingress:
     enabled: false
-    className: "nginx" #updated this [regression was working fine without this change]
+    className: nginx #updated this [regression was working fine without this change]
     clusterIssuer: "kloudlite-cert-issuer" #updated this [regression was working fine without this change]
 
     host: "google.com" #updated this [regression was working fine without this change]
