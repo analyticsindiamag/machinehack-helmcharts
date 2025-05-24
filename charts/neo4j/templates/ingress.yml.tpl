@@ -1,4 +1,4 @@
-{{- if .Values.ingress.enabled }}
+{{- if .Values.custom.ingress.enabled }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -8,11 +8,11 @@ metadata:
     cert-manager.io/cluster-issuer: kloudlite-cert-issuer
 
 spec:
-  {{- if .Values.ingress.className }}
-  ingressClassName: {{.Values.ingress.className}}
+  {{- if .Values.custom.ingress.className }}
+  ingressClassName: {{.Values.custom.ingress.className}}
   {{- end }}
   rules:
-  - host: {{ .Values.ingress.host }}
+  - host: {{ .Values.custom.ingress.host }}
     http:
       paths:
       - path: /
@@ -24,6 +24,6 @@ spec:
               number: 7474
   tls:
   - hosts:
-    - {{ .Values.ingress.host }}
-    secretName: {{ .Values.ingress.host }}-tls
+    - {{ .Values.custom.ingress.host }}
+    secretName: {{ .Values.custom.ingress.host }}-tls
 {{- end }}

@@ -1,25 +1,26 @@
-ingress:
-  enabled: enable
-  className: nginx
-  host: neo4j.cloud.machinehack.com
-  architecture: "standalone"
-  tls:
-    enabled: true
-    clusterIssuer: "kloudlite-cert-issuer"
-    
-  volumePermissions:
-    enabled: true
+custom:
+  ingress:
+    enabled: enable
+    className: nginx
+    host: test.neo4j.cloud.machinehack.com
+    architecture: "standalone"
+    tls:
+      enabled: true
+      clusterIssuer: "kloudlite-cert-issuer"
+      
+    volumePermissions:
+      enabled: true
 
-  arbiter:
-    enabled: false
+    arbiter:
+      enabled: false
 
-  resources:
-    requests:
-      cpu: "200m"
-      memory: "256Mi"
-    limits:
-      cpu: "400m"
-      memory: "512Mi"
+    resources:
+      requests:
+        cpu: "200m"
+        memory: "256Mi"
+      limits:
+        cpu: "400m"
+        memory: "512Mi"
 
-  nodeSelector: {}
-  tolerations: []
+    nodeSelector: {}
+    tolerations: []
