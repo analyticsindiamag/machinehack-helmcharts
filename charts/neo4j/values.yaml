@@ -1,13 +1,13 @@
-custom:
+codeServer:
   ingress:
-    enabled: enable
+    enabled: true
     className: nginx
-    host: test.neo4j.cloud.machinehack.com
+    host: testing.neo4j.cloud.machinehack.com
     architecture: "standalone"
     tls:
       enabled: true
       clusterIssuer: "kloudlite-cert-issuer"
-      
+
     volumePermissions:
       enabled: true
 

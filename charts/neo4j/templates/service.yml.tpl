@@ -9,10 +9,10 @@ spec:
   ports:
     - name: http
       protocol: TCP
-      port: 7474       # Neo4j Browser/HTTP port
+      port: 7474       
       targetPort: 7474
     - name: bolt
       protocol: TCP
-      port: 7687       # Neo4j Bolt protocol port
+      port: 7687       
       targetPort: 7687
   type: ClusterIP   

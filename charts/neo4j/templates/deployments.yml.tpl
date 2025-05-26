@@ -18,7 +18,9 @@ spec:
           image: neo4j:5.15.0  # or latest stable
           env:
             - name: NEO4J_AUTH
-              value: neo4j/test123  # set secure password in real use
+              value: neo4j/Strongpassword@123  
+            - name: NEO4J_server_config_strict__validation_enabled
+              value: "false"
           ports:
             - containerPort: 7474  # HTTP
             - containerPort: 7687  # Bolt
