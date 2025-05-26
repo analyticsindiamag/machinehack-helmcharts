@@ -5,6 +5,10 @@ vars:
   ReleaseNamespace: "testing-crewai"
 
 tasks:
+  build:
+    cmds:
+      - helm dependency update
+      - helm dependency build
   install:
     cmds:
       - helm upgrade --install {{.ReleaseName}} -n {{.ReleaseNamespace}} --create-namespace .

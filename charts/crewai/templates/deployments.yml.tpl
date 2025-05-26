@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - name: crewai
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        image: "{{ .Values.codeServer.image.repository }}:{{ .Values.codeServer.image.tag }}"
         ports:
         - containerPort: 8000
