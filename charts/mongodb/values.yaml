@@ -22,4 +22,7 @@ mongodb:
     enabled: true
     host: "0.0.0.0"
 
+  service:
+    # nodePort: 31827  # Uncomment and set a custom port if needed, or leave commented to let Kubernetes assign a random port
+
   extraFlags: "--bind_ip_all"

@@ -10,7 +10,9 @@ spec:
     port: 27017
     protocol: TCP
     targetPort: {{.Release.Name}}
-    nodePort: 31827
+    {{- if .Values.mongodb.service.nodePort }}
+    nodePort: {{.Values.mongodb.service.nodePort}}
+    {{- end }}
   selector:
     app.kubernetes.io/component: {{.Release.Name}}
     app.kubernetes.io/instance: {{.Release.Name}}
