@@ -8,6 +8,6 @@ spec:
     app: {{.Release.Name}}
   ports:
     - protocol: TCP
-      port: {{ .Values.service.port }}
+      port: 5678
       targetPort: 5678
   type: ClusterIP
