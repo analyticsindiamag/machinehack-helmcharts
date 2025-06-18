@@ -23,4 +23,4 @@ ingress:
     enabled: false
     origins: []
   auth:
-    enabled: true
+    enabled: false
