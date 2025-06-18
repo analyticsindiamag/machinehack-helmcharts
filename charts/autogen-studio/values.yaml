@@ -16,9 +16,8 @@ storage:
 
 ingress:
   enabled: false
-  className: ""
-  clusterIssuer: ""
-
+  className: "nignx"
+  clusterIssuer: "kloudlite-cert-issuer"
   host: ""
   cors:
     enabled: false
