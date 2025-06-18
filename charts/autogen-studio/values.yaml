@@ -23,3 +23,5 @@ ingress:
   cors:
     enabled: false
     origins: []
+  auth:
+    enabled: true

@@ -1,5 +1,6 @@
 {{- if .Values.ingress.enabled }}
 
+{{- if .Values.ingress.auth.enabled | default true }}
 ---
 apiVersion: v1
 kind: Secret
@@ -13,6 +14,7 @@ stringData:
   USERNAME: {{ $username }}
   PASSWORD: {{ $password }}
   auth: {{ (htpasswd $username $password) | squote }}
+{{- end }}
 
 ---
 
@@ -25,7 +27,9 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/secure-backends: "true"
     nginx.ingress.kubernetes.io/proxy-body-size: 10m
-    cert-manager.io/cluster-issuer: {{ required "a valid cluster issuer must be provided" .Values.ingress.clusterIssuer}}
+    {{- if .Values.ingress.clusterIssuer }}
+    cert-manager.io/cluster-issuer: {{ .Values.ingress.clusterIssuer }}
+    {{- end }}
 
     {{- if .Values.ingress.cors.enabled }}
     nginx.ingress.kubernetes.io/enable-cors: "true"
@@ -33,9 +37,11 @@ metadata:
     nginx.ingress.kubernetes.io/cors-allow-origin: {{ .Values.ingress.cors.origins | join "," | quote }}
     {{- end }}
 
+    {{- if .Values.ingress.auth.enabled | default true }}
     nginx.ingress.kubernetes.io/auth-type: basic
     nginx.ingress.kubernetes.io/auth-secret: {{ include "autogen-studio.ingress.basic-auth.secret.name" . }}
     nginx.ingress.kubernetes.io/auth-realm: "Authentication Required - ok"
+    {{- end }}
 
 spec:
   ingressClassName: {{ required "a valid ingress class name must be provided" .Values.ingress.className}}
@@ -50,8 +56,10 @@ spec:
             name: {{ include "autogen-studio.name" .}}
             port:
               number: 80
+  {{- if .Values.ingress.clusterIssuer }}
   tls:
   - hosts:
     - {{ .Values.ingress.host | squote }}
     secretName: {{ .Values.ingress.host }}-tls
+  {{- end }}
 {{- end }}
