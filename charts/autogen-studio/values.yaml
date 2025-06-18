@@ -15,8 +15,8 @@ storage:
   size: "1Gi"
 
 ingress:
-  enabled: false
-  className: "nignx"
+  enabled: true
+  className: nignx
   clusterIssuer: "kloudlite-cert-issuer"
   host: ""
   cors:
