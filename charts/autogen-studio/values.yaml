@@ -1,4 +1,4 @@
-OPENAI_API_KEY: ""
+GEMINI_API_KEY: "AIzaSyDkWhz6g0gdUkni0oKrJuCmhoO32cCGBlY"
 
 nodeSelector: {}
 tolerations: []

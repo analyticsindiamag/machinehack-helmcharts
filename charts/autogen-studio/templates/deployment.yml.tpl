@@ -35,8 +35,8 @@ spec:
           - /app
           workingDir: /app
           env:
-            - name: OPENAI_API_KEY
-              value: {{ .Values.OPENAI_API_KEY | squote }}
+            - name: GEMINI_API_KEY
+              value: {{ .Values.GEMINI_API_KEY | squote }}
 
           resources: {{ .Values.resources | toJson }}
           volumeMounts:
