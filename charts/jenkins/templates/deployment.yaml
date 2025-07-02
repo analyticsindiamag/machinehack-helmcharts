@@ -12,6 +12,9 @@ spec:
     matchLabels:
       app: jenkins
       release: {{ .Release.Name }}
+  securityContext:
+      runAsUser: 0
+      fsGroup: 0
   template:
     metadata:
       labels:
