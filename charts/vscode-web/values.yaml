@@ -35,7 +35,7 @@ codeServer:
     enabled: true
     className: nginx
     clusterIssuer: "kloudlite-cert-issuer"
-    host: "machinehack-new.clients.kloudlite.io"  # Replace with your actual domain
+    host: "google.com"  # Replace with your actual domain
     cors:
       enabled: false
       origins: []
