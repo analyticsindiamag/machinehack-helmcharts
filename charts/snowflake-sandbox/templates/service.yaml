@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "snowflake-sandbox.fullname" . }}
+  labels:
+    {{- include "snowflake-sandbox.labels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8888
+      targetPort: 8888
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "snowflake-sandbox.selectorLabels" . | nindent 4 }} 

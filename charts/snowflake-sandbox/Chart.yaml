@@ -1,0 +1,24 @@
+apiVersion: v2
+name: snowflake-sandbox
+description: >-
+  Disposable, on-demand coding sandbox for Snowflake development (Jupyter/code-server) as part of CloudLab. Supports secure secrets, ephemeral/persistent storage, and external secret integration.
+type: application
+version: 0.1.0
+appVersion: "latest"
+keywords:
+  - snowflake
+  - jupyter
+  - code-server
+  - sandbox
+  - cloudlab
+home: https://cloudlab.example.com
+sources:
+  - https://github.com/org/snowflake-sandbox
+maintainers:
+  - name: CloudLab Team
+    email: support@cloudlab.example.com
+annotations:
+  artifacthub.io/links: |
+    - name: Documentation
+      url: https://cloudlab.example.com/docs
+  artifacthub.io/containsSecurityUpdates: "true" 

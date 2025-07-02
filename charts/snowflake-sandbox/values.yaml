@@ -1,0 +1,62 @@
+image:
+  repository: ghcr.io/org/snowflake-sandbox
+  tag: latest
+  pullPolicy: IfNotPresent
+
+ui:
+  type: jupyter # or "code-server"
+
+ingress:
+  enabled: true
+  host: sandbox.cloudlab.internal
+  tls: true
+
+snowflake:
+  account: xyz123.us-east-1
+  user: "{{ .Values.global.user }}"
+  passwordSecretRef: snowflake-secret
+  role: ""
+  warehouse: SANDBOX_WH
+  database: LAB
+  schema: PUBLIC
+
+# TTL for disposable sandboxes (in seconds)
+ttl:
+  enabled: true
+  seconds: 1800
+
+# Persistence for user data (ephemeral by default)
+persistence:
+  enabled: false
+  size: 5Gi
+  storageClass: ""
+
+resources:
+  limits:
+    cpu: 1
+    memory: 2Gi
+  requests:
+    cpu: 250m
+    memory: 512Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
+
+externalSecrets:
+  enabled: false
+  backendType: aws # or "vault"
+  secretName: snowflake-secret
+  # Add backend-specific config here
+
+livenessProbe:
+  path: /healthz
+  initialDelaySeconds: 10
+  periodSeconds: 10
+
+readinessProbe:
+  path: /readyz
+  initialDelaySeconds: 5
+  periodSeconds: 10 

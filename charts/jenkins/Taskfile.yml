@@ -5,6 +5,10 @@ vars:
   ReleaseNamespace: "testing-jenkins"
 
 tasks:
+  chown-jenkins-home:
+    cmds:
+      - chown -R 1000:1000 /var/jenkins_home
+
   install:
     cmds:
       - helm upgrade --install {{.ReleaseName}} -n {{.ReleaseNamespace}} --create-namespace . -f Values.yaml

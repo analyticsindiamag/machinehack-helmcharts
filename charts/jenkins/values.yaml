@@ -41,3 +41,7 @@ persistence:
     - ReadWriteOnce
   size: 20Gi
   storageClass: "ebs-sc-ap-south-1b"
+
+securityContext:
+  runAsUser: 1000
+  fsGroup: 1000

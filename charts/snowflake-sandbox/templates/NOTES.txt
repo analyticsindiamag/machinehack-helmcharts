@@ -1,0 +1,31 @@
+Thank you for installing the Snowflake Sandbox!
+
+Your disposable coding environment is ready.
+
+Access URL:
+{{- if .Values.ingress.enabled }}
+  https://{{ .Values.ingress.host }}
+{{- else }}
+  (No ingress enabled. Use kubectl port-forward to access.)
+{{- end }}
+
+Default UI: {{ .Values.ui.type }} (switchable via values)
+
+Snowflake connection environment variables:
+  SNOWFLAKE_ACCOUNT: {{ .Values.snowflake.account }}
+  SNOWFLAKE_USER: {{ .Values.snowflake.user }}
+  SNOWFLAKE_WAREHOUSE: {{ .Values.snowflake.warehouse }}
+  SNOWFLAKE_DATABASE: {{ .Values.snowflake.database }}
+  SNOWFLAKE_SCHEMA: {{ .Values.snowflake.schema }}
+  SNOWFLAKE_ROLE: {{ .Values.snowflake.role }}
+  SNOWFLAKE_PASSWORD: (from secret: {{ .Values.snowflake.passwordSecretRef }})
+
+Session TTL: {{ if .Values.ttl.enabled }}{{ .Values.ttl.seconds }} seconds{{ else }}not set{{ end }}
+
+To clean up disposable sandboxes, delete the release or set TTL annotations as needed.
+
+If using External Secrets, credentials are pulled securely from your configured backend.
+
+For persistent storage, set persistence.enabled=true in your values.
+
+Happy coding! 
