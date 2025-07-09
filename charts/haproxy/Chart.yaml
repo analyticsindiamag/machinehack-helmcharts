@@ -1,6 +1,0 @@
-apiVersion: v2
-name: haproxy
-description: A Helm chart for HAProxy load balancer and proxy server
-type: application
-version: 0.1.0
-appVersion: "2.8.3" 
