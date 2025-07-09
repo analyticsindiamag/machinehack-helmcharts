@@ -1,0 +1,41 @@
+image:
+  repository: langflowai/langflow
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 7860
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations: 
+    cert-manager.io/cluster-issuer: kloudlite-cert-issuer
+  host: crewai-langflow.machinehack-new.clients.kloudlite.io
+  paths:
+    - path: /
+      pathType: Prefix
+  tls:
+    enabled: true
+    clusterIssuer: "kloudlite-cert-issuer"
+
+replicaCount: 1
+
+resources: {}
+
+env:
+  - name: HOST
+    value: "0.0.0.0"
+  - name: PORT
+    value: "7860"
+  - name: LANGFLOW_HOST
+    value: "0.0.0.0"
+  - name: LANGFLOW_PORT
+    value: "7860"
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
