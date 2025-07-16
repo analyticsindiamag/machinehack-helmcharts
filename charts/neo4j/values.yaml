@@ -2,7 +2,7 @@ codeServer:
   ingress:
     enabled: true
     className: nginx
-    host: testing.neo4j.cloud.machinehack.com
+    host: "google.com"
     architecture: "standalone"
     tls:
       enabled: true
