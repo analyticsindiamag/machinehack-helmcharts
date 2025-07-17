@@ -1,0 +1,17 @@
+version: 3
+vars:
+  ReleaseName: "crewai-langflow"
+  ReleaseNamespace: "testing-crewai-langflow"
+
+tasks:
+  install:
+    cmds:
+      - helm upgrade --install {{.ReleaseName}} -n {{.ReleaseNamespace}} --create-namespace . --set image.repository=langflowai/langflow --set image.tag=latest --set service.port=7860
+
+  template:
+    cmds:
+      - helm template --dry-run {{.ReleaseName}} -n {{.ReleaseNamespace}} --create-namespace . --set image.repository=langflowai/langflow --set image.tag=latest --set service.port=7860 --debug
+
+  uninstall:
+    cmds:
+      - helm uninstall {{.ReleaseName}} -n {{.ReleaseNamespace}}
